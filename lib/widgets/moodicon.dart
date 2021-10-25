@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class MoodIcon extends StatelessWidget {
-  String image;
-  String name;
-  Color colour;
-  MoodIcon(
+  final String image;
+  final String name;
+  final Color colour;
+  const MoodIcon(
       {Key? key, required this.name, required this.image, required this.colour})
       : super(key: key);
   @override
@@ -23,7 +23,7 @@ class MoodIcon extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border.all(color: colour),
       ),
-      height: 80,
+      height: 85,
       width: 65,
     );
   }

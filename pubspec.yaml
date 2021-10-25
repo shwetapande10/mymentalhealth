@@ -69,7 +69,7 @@ flutter:
     - assets/sad.png
     - assets/angry.png
     - assets/scared.png
-    - assets/surprised.png
+    - assets/amazed.png
     - assets/loving.png
     - assets/sports.png
     - assets/sleeping.png
@@ -80,7 +80,7 @@ flutter:
     - assets/gaming.png
     - assets/friends.png
     - assets/family.png
-    - assets/excercise.png
+    - assets/exercise.png
     - assets/eat.png
     - assets/date.png
     - assets/clean.png
