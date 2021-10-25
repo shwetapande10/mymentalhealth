@@ -1,25 +1,11 @@
-import 'dart:ui';
-
-import 'package:flutter/material.dart';
 import 'package:mymentalhealth/models/activity.dart';
 import 'package:mymentalhealth/models/mood.dart';
 
 class MoodData {
   late String date;
   late String mood;
-  late final Color barColor;
 
-  static late final Map<String, Color> _barColorMap = {
-    moods[0].name: Colors.green,
-    moods[1].name: Colors.blue,
-    moods[2].name: Colors.red,
-    moods[3].name: Colors.black,
-    moods[4].name: Colors.pink,
-    moods[5].name: Colors.white
-  };
-  MoodData(this.mood, this.date) {
-    barColor = _barColorMap[mood] ?? Colors.grey;
-  }
+  MoodData(this.mood, this.date);
 }
 
 List<Mood> moods = [

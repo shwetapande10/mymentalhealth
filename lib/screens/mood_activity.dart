@@ -54,18 +54,18 @@ class _MoodActivityScreenState extends State<MoodActivityScreen> {
   MoodActivity getMoodActivityItem(AsyncSnapshot<List<dynamic>> snapshot,
       int position, BuildContext context) {
     var imageString = snapshot.data?[position]['activityImage'];
-    List<String> img = imageString.split('_');
-    List<String> name = snapshot.data?[position]['activityName'].split("_");
+    List<String> imgList = imageString.split('_');
+    List<String> nameList = snapshot.data?[position]['activityName'].split("_");
     Provider.of<MoodCardProvider>(context, listen: false)
         .activityNames
-        .addAll(name);
+        .addAll(nameList);
     Provider.of<MoodCardProvider>(context, listen: false).data.add(MoodData(
         snapshot.data?[position]['mood'], snapshot.data?[position]['date']));
     return MoodActivity(
         snapshot.data?[position]['image'],
         snapshot.data?[position]['datetime'],
         snapshot.data?[position]['mood'],
-        img,
-        name);
+        imgList,
+        nameList);
   }
 }

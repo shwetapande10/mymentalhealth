@@ -94,17 +94,19 @@ class _StartPageState extends State<StartPage> {
                   child: ActivityIcon(
                       activities[index].image,
                       activities[index].name,
-                      activities[index].selected ? Colors.black : Colors.white),
+                      activities[index].isSelected
+                          ? Colors.black
+                          : Colors.white),
                   onLongPress: () => {
-                        if (activities[index].selected)
+                        if (activities[index].isSelected)
                           {
                             setState(() {
-                              activities[index].selected = false;
+                              activities[index].isSelected = false;
                             })
                           }
                         else
                           setState(() {
-                            activities[index].selected = true;
+                            activities[index].isSelected = true;
                             Provider.of<MoodCardProvider>(context,
                                     listen: false)
                                 .add(activities[index]);
@@ -118,7 +120,7 @@ class _StartPageState extends State<StartPage> {
   Column _activityTitle() {
     return Column(
       children: const [
-        Text('WHAT YOU HAVE BEEN DOING?',
+        Text('What have you been doing?',
             style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
         SizedBox(height: 10),
         Text('Hold on the activity to select,You can choose multiple',
@@ -133,27 +135,29 @@ class _StartPageState extends State<StartPage> {
           scrollDirection: Axis.horizontal,
           itemCount: moods.length,
           itemBuilder: (context, index) {
-            return Row(
-              children: <Widget>[
-                const SizedBox(width: 10),
-                GestureDetector(
-                    child: MoodIcon(
-                        image: moods[index].moodImage,
-                        name: moods[index].name,
-                        colour: moods[index].isSelected
-                            ? Colors.black
-                            : Colors.white),
-                    onTap: () => {
-                          if (onTapCount == 0)
-                            setState(() {
-                              selectMood(moods[index]);
-                            })
-                          else
-                            setState(() {
-                              deselectMood(moods[index]);
-                            })
-                        }),
-              ],
+            return Expanded(
+              child: Row(
+                children: <Widget>[
+                  const SizedBox(width: 10),
+                  GestureDetector(
+                      child: MoodIcon(
+                          image: moods[index].moodImage,
+                          name: moods[index].name,
+                          colour: moods[index].isSelected
+                              ? Colors.black
+                              : Colors.white),
+                      onTap: () => {
+                            if (onTapCount == 0)
+                              setState(() {
+                                selectMood(moods[index]);
+                              })
+                            else
+                              setState(() {
+                                deselectMood(moods[index]);
+                              })
+                          }),
+                ],
+              ),
             );
           }),
     );
@@ -176,7 +180,7 @@ class _StartPageState extends State<StartPage> {
   Column _howAreYouFeelingTitle() {
     return Column(
       children: const [
-        Text('WHAT YOU FEELING NOW?',
+        Text('How are you feeling now?',
             style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
         SizedBox(height: 6),
         Text('(Tap to Select and Tap again to deselect!)',
