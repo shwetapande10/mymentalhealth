@@ -1,26 +1,25 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mymentalhealth/helpers/db_helper.dart';
 import 'package:mymentalhealth/helpers/mood_data.dart';
 import 'package:mymentalhealth/models/activity.dart';
 
-class MoodCard extends ChangeNotifier {
-  String datetime = "12:00 AM";
-  String mood = "happy";
-  List<String> activityName = [];
-  List<String> activityImage = [];
-  String image = "smile.png";
-  late String actImage;
-  late String actName;
+class MoodCardProvider extends ChangeNotifier {
+  late String datetime;
+  late String mood;
+  List<String> activityNameList = [];
+  List<String> activityImageList = [];
+  late String image;
+  late String activityImage;
+  late String activityName;
   List items = [];
   List<MoodData> data = [];
-  String date = "";
+  late String date;
   bool isLoading = false;
   List<String> activityNames = [];
 
   void add(Activity act) {
-    activityImage.add(act.image);
-    activityName.add(act.name);
+    activityImageList.add(act.image);
+    activityNameList.add(act.name);
     notifyListeners();
   }
 
@@ -30,8 +29,8 @@ class MoodCard extends ChangeNotifier {
       'datetime': datetime,
       'mood': mood,
       'image': image,
-      'actimage': actImage,
-      'actname': actName,
+      'activityImage': actImage,
+      'activityName': actName,
       'date': date
     });
     notifyListeners();

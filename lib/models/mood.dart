@@ -1,6 +1,6 @@
 class Mood {
   String name;
-  String moodimage;
+  String moodImage;
   bool isSelected;
-  Mood(this.moodimage, this.name, this.isSelected);
+  Mood(this.moodImage, this.name, this.isSelected);
 }

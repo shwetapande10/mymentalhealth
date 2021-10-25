@@ -2,7 +2,7 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mymentalhealth/helpers/mood_data.dart';
-import 'package:mymentalhealth/models/moodcard.dart';
+import 'package:mymentalhealth/models/moodcard_provider.dart';
 import 'package:mymentalhealth/widgets/chart_holder.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:provider/provider.dart';
@@ -43,11 +43,11 @@ class _MoodChartState extends State<MoodChart> {
   @override
   void initState() {
     super.initState();
-    Provider.of<MoodCard>(context, listen: false).data.forEach((element) {
+    Provider.of<MoodCardProvider>(context, listen: false).data.forEach((element) {
       moodScore[element.mood] = (moodScore[element.mood] ?? 0) + 1;
     });
 
-    Provider.of<MoodCard>(context, listen: false)
+    Provider.of<MoodCardProvider>(context, listen: false)
         .activityNames
         .forEach((element) {
       activityScore[element] = (activityScore[element] ?? 0) + 1;
@@ -56,7 +56,7 @@ class _MoodChartState extends State<MoodChart> {
 
   @override
   Widget build(BuildContext context) {
-    List<MoodData> data = Provider.of<MoodCard>(context, listen: true).data;
+    List<MoodData> data = Provider.of<MoodCardProvider>(context, listen: true).data;
     List<charts.Series<MoodData, String>> series = [
       charts.Series(
           id: 'Moods',

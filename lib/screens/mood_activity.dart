@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mymentalhealth/helpers/db_helper.dart';
 import 'package:mymentalhealth/helpers/mood_data.dart';
-import 'package:mymentalhealth/models/moodcard.dart';
+import 'package:mymentalhealth/models/moodcard_provider.dart';
 import 'package:mymentalhealth/widgets/mood_activity.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +16,7 @@ class _MoodActivityScreenState extends State<MoodActivityScreen> {
   bool loader = false;
   @override
   Widget build(BuildContext context) {
-    loader = Provider.of<MoodCard>(context, listen: true).isLoading;
+    loader = Provider.of<MoodCardProvider>(context, listen: true).isLoading;
     return loader
         ? const Center(child: CircularProgressIndicator())
         : Scaffold(
@@ -54,11 +53,13 @@ class _MoodActivityScreenState extends State<MoodActivityScreen> {
 
   MoodActivity getMoodActivityItem(AsyncSnapshot<List<dynamic>> snapshot,
       int position, BuildContext context) {
-    var imageString = snapshot.data?[position]['actimage'];
+    var imageString = snapshot.data?[position]['activityImage'];
     List<String> img = imageString.split('_');
-    List<String> name = snapshot.data?[position]['actname'].split("_");
-    Provider.of<MoodCard>(context, listen: false).activityNames.addAll(name);
-    Provider.of<MoodCard>(context, listen: false).data.add(MoodData(
+    List<String> name = snapshot.data?[position]['activityName'].split("_");
+    Provider.of<MoodCardProvider>(context, listen: false)
+        .activityNames
+        .addAll(name);
+    Provider.of<MoodCardProvider>(context, listen: false).data.add(MoodData(
         snapshot.data?[position]['mood'], snapshot.data?[position]['date']));
     return MoodActivity(
         snapshot.data?[position]['image'],

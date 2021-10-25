@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mymentalhealth/helpers/mood_data.dart';
 import 'package:mymentalhealth/models/mood.dart';
-import 'package:mymentalhealth/models/moodcard.dart';
+import 'package:mymentalhealth/models/moodcard_provider.dart';
 import 'package:mymentalhealth/widgets/activity.dart';
 import 'package:mymentalhealth/widgets/moodicon.dart';
 import 'package:provider/provider.dart';
@@ -14,21 +14,18 @@ class StartPage extends StatefulWidget {
 }
 
 class _StartPageState extends State<StartPage> {
-  late MoodCard moodCard;
+  late MoodCardProvider moodCard;
   late String mood;
   late String image;
-  late String datePicked = "Please select a date\n";
-  late String timePicked = "Please select a time";
   late String datetime;
   late int currentIndex;
+  late String dateOnly;
+
+  String datePicked = "Please select a date\n";
+  String timePicked = "Please select a time";
   int onTapCount = 0;
   Color colour = Colors.white;
-  @override
-  void initState() {
-    super.initState();
-  }
 
-  late String dateOnly;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,31 +46,31 @@ class _StartPageState extends State<StartPage> {
             backgroundColor: Colors.blue),
         body: Column(children: <Widget>[
           const SizedBox(height: 20),
-          pickerRow(context),
-          selectedDateTime(),
-          howAreYouFeelingTitle(),
-          moodSelector(),
-          activityTitle(),
-          activitySelector(),
-          saveButton(context),
+          _pickerRow(context),
+          _selectedDateTime(),
+          _howAreYouFeelingTitle(),
+          _moodSelector(),
+          _activityTitle(),
+          _activitySelector(),
+          _saveButton(context),
           const SizedBox(height: 15)
         ]));
   }
 
-  ElevatedButton saveButton(BuildContext context) {
+  ElevatedButton _saveButton(BuildContext context) {
     return ElevatedButton.icon(
         onPressed: () => {
               setState(() {
                 datetime = datePicked + '   ' + timePicked;
-                Provider.of<MoodCard>(context, listen: false).addPlace(
+                Provider.of<MoodCardProvider>(context, listen: false).addPlace(
                     datetime,
                     mood,
                     image,
-                    Provider.of<MoodCard>(context, listen: false)
-                        .activityImage
+                    Provider.of<MoodCardProvider>(context, listen: false)
+                        .activityImageList
                         .join('_'),
-                    Provider.of<MoodCard>(context, listen: false)
-                        .activityName
+                    Provider.of<MoodCardProvider>(context, listen: false)
+                        .activityNameList
                         .join('_'),
                     dateOnly);
               }),
@@ -83,7 +80,7 @@ class _StartPageState extends State<StartPage> {
         label: const Text("Save"));
   }
 
-  Expanded activitySelector() {
+  Expanded _activitySelector() {
     return Expanded(
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
@@ -108,7 +105,8 @@ class _StartPageState extends State<StartPage> {
                         else
                           setState(() {
                             activities[index].selected = true;
-                            Provider.of<MoodCard>(context, listen: false)
+                            Provider.of<MoodCardProvider>(context,
+                                    listen: false)
                                 .add(activities[index]);
                           }),
                       }),
@@ -117,7 +115,7 @@ class _StartPageState extends State<StartPage> {
     );
   }
 
-  Column activityTitle() {
+  Column _activityTitle() {
     return Column(
       children: const [
         Text('WHAT YOU HAVE BEEN DOING?',
@@ -129,7 +127,7 @@ class _StartPageState extends State<StartPage> {
     );
   }
 
-  Expanded moodSelector() {
+  Expanded _moodSelector() {
     return Expanded(
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
@@ -140,7 +138,7 @@ class _StartPageState extends State<StartPage> {
                 const SizedBox(width: 10),
                 GestureDetector(
                     child: MoodIcon(
-                        image: moods[index].moodimage,
+                        image: moods[index].moodImage,
                         name: moods[index].name,
                         colour: moods[index].isSelected
                             ? Colors.black
@@ -163,7 +161,7 @@ class _StartPageState extends State<StartPage> {
 
   selectMood(Mood element) {
     mood = element.name;
-    image = element.moodimage;
+    image = element.moodImage;
     element.isSelected = true;
     onTapCount = onTapCount + 1;
   }
@@ -175,7 +173,7 @@ class _StartPageState extends State<StartPage> {
     }
   }
 
-  Column howAreYouFeelingTitle() {
+  Column _howAreYouFeelingTitle() {
     return Column(
       children: const [
         Text('WHAT YOU FEELING NOW?',
@@ -187,7 +185,7 @@ class _StartPageState extends State<StartPage> {
     );
   }
 
-  Column selectedDateTime() {
+  Column _selectedDateTime() {
     return Column(
       children: [
         const SizedBox(height: 20),
@@ -198,7 +196,7 @@ class _StartPageState extends State<StartPage> {
     );
   }
 
-  Row pickerRow(BuildContext context) {
+  Row _pickerRow(BuildContext context) {
     return Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[

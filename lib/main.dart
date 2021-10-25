@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mymentalhealth/models/moodcard.dart';
+import 'package:mymentalhealth/models/moodcard_provider.dart';
 import 'package:mymentalhealth/screens/chart.dart';
 import 'package:mymentalhealth/screens/mood_activity.dart';
 import 'package:mymentalhealth/screens/start.dart';
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-        value: MoodCard(),
+        value: MoodCardProvider(),
         child: MaterialApp(
           title: 'My mental health',
           theme: ThemeData(

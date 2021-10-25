@@ -8,7 +8,7 @@ class DBHelper {
     return sql.openDatabase(path.join(dbPath, 'moods.db'),
         onCreate: (db, version) {
       return db.execute(
-          'CREATE TABLE user_moods(datetime TEXT PRIMARY KEY, mood TEXT, image TEXT,actimage TEXT,actname TEXT,date TEXT)');
+          'CREATE TABLE user_moods(datetime TEXT PRIMARY KEY, mood TEXT, image TEXT,activityImage TEXT, activityName TEXT,date TEXT)');
     }, version: 1);
   }
 

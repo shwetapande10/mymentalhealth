@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mymentalhealth/models/moodcard.dart';
+import 'package:mymentalhealth/models/moodcard_provider.dart';
 import 'package:provider/provider.dart';
 
 class MoodActivity extends StatefulWidget {
@@ -55,12 +54,13 @@ class _MoodActivityState extends State<MoodActivity> {
                 IconButton(
                     icon: const Icon(Icons.delete),
                     onPressed: () async {
-                      Provider.of<MoodCard>(context, listen: false).isLoading =
-                          true;
-                      await Provider.of<MoodCard>(context, listen: false)
+                      Provider.of<MoodCardProvider>(context, listen: false)
+                          .isLoading = true;
+                      await Provider.of<MoodCardProvider>(context,
+                              listen: false)
                           .deletePlaces(widget.datetime ?? "");
-                      Provider.of<MoodCard>(context, listen: false).isLoading =
-                          false;
+                      Provider.of<MoodCardProvider>(context, listen: false)
+                          .isLoading = false;
                     })
               ],
             ),
