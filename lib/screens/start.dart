@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mymentalhealth/helpers/mood_data.dart';
 import 'package:mymentalhealth/models/mood.dart';
 import 'package:mymentalhealth/models/moodcard_provider.dart';
-import 'package:mymentalhealth/widgets/activity.dart';
-import 'package:mymentalhealth/widgets/moodicon.dart';
+import 'package:mymentalhealth/widgets/mood_activity_icon.dart';
 import 'package:provider/provider.dart';
 
 class StartPage extends StatefulWidget {
@@ -91,26 +90,22 @@ class _StartPageState extends State<StartPage> {
                 width: 15,
               ),
               GestureDetector(
-                  child: ActivityIcon(
-                      activities[index].image,
-                      activities[index].name,
-                      activities[index].isSelected
+                  child: MoodActivityIcon(
+                      name: activities[index].name,
+                      image: activities[index].image,
+                      colour: activities[index].isSelected
                           ? Colors.black
                           : Colors.white),
-                  onLongPress: () => {
-                        if (activities[index].isSelected)
-                          {
-                            setState(() {
-                              activities[index].isSelected = false;
-                            })
-                          }
-                        else
-                          setState(() {
-                            activities[index].isSelected = true;
+                  onTap: () => {
+                        setState(() {
+                          activities[index].isSelected =
+                              !activities[index].isSelected;
+                          if (activities[index].isSelected) {
                             Provider.of<MoodCardProvider>(context,
                                     listen: false)
                                 .add(activities[index]);
-                          }),
+                          }
+                        })
                       }),
             ]);
           }),
@@ -140,21 +135,20 @@ class _StartPageState extends State<StartPage> {
                 children: <Widget>[
                   const SizedBox(width: 10),
                   GestureDetector(
-                      child: MoodIcon(
+                      child: MoodActivityIcon(
                           image: moods[index].moodImage,
                           name: moods[index].name,
                           colour: moods[index].isSelected
                               ? Colors.black
                               : Colors.white),
                       onTap: () => {
-                            if (onTapCount == 0)
-                              setState(() {
+                            setState(() {
+                              if (onTapCount == 0) {
                                 selectMood(moods[index]);
-                              })
-                            else
-                              setState(() {
+                              } else {
                                 deselectMood(moods[index]);
-                              })
+                              }
+                            })
                           }),
                 ],
               ),

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class MoodIcon extends StatelessWidget {
+class MoodActivityIcon extends StatelessWidget {
   final String image;
   final String name;
   final Color colour;
-  const MoodIcon(
+  const MoodActivityIcon(
       {Key? key, required this.name, required this.image, required this.colour})
       : super(key: key);
   @override

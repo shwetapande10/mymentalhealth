@@ -10,9 +10,9 @@ class MoodCardProvider extends ChangeNotifier {
   bool isLoading = false;
   List<String> activityNames = [];
 
-  void add(Activity act) {
-    activityImageList.add(act.image);
-    activityNameList.add(act.name);
+  void add(Activity activity) {
+    activityImageList.add(activity.image);
+    activityNameList.add(activity.name);
     notifyListeners();
   }
 
