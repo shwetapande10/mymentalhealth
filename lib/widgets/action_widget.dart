@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 
 class ActionWidget extends StatelessWidget {
   final IconData icon;
-  final Color iconColor;
   final String text;
+  final Color iconColour;
   final GestureTapCallback onPress;
-
   const ActionWidget({
     Key? key,
     required this.icon,
-    required this.iconColor,
     required this.text,
+    required this.iconColour,
     required this.onPress,
   }) : super(key: key);
 
@@ -22,17 +21,18 @@ class ActionWidget extends StatelessWidget {
           onTap: onPress,
           child: CircleAvatar(
             radius: 27,
+            backgroundColor: iconColour,
             child: CircleAvatar(
-                child: Icon(icon, color: iconColor, size: 30),
-                radius: 25,
-                backgroundColor: Colors.white),
-            backgroundColor: iconColor,
+              radius: 25,
+              child: Icon(icon, color: iconColour, size: 30),
+              backgroundColor: Colors.white,
+            ),
           ),
         ),
         const SizedBox(height: 2.5),
         Text(text,
             style: TextStyle(
-                fontWeight: FontWeight.w500, color: iconColor, fontSize: 15))
+                fontWeight: FontWeight.w500, color: iconColour, fontSize: 15))
       ],
     );
   }

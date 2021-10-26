@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:mymentalhealth/helpers/db_helper.dart';
-import 'package:mymentalhealth/models/moodcard_provider.dart';
-import 'package:mymentalhealth/widgets/mood_activity_list.dart';
-import 'package:provider/provider.dart';
+import 'package:mymentalhealth/widgets/mood_activity.dart';
 
-class MoodActivityScreen extends StatefulWidget {
-  const MoodActivityScreen({Key? key}) : super(key: key);
+class MoodAcitivtyScreen extends StatefulWidget {
+  const MoodAcitivtyScreen({Key? key}) : super(key: key);
 
   @override
-  _MoodActivityScreenState createState() => _MoodActivityScreenState();
+  _MoodAcitivtyScreenState createState() => _MoodAcitivtyScreenState();
 }
 
-class _MoodActivityScreenState extends State<MoodActivityScreen> {
+class _MoodAcitivtyScreenState extends State<MoodAcitivtyScreen> {
   bool loader = false;
+  void setLoader(bool loader) {
+    setState(() {
+      this.loader = loader;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    loader = Provider.of<MoodCardProvider>(context, listen: true).isLoading;
     return loader
         ? const Center(child: CircularProgressIndicator())
         : Scaffold(
@@ -50,10 +53,12 @@ class _MoodActivityScreenState extends State<MoodActivityScreen> {
     List<String> imgList = imageString.split('_');
     List<String> nameList = snapshot.data?[position]['activityName'].split("_");
     return MoodActivity(
-        snapshot.data?[position]['image'],
-        snapshot.data?[position]['datetime'],
-        snapshot.data?[position]['mood'],
-        imgList,
-        nameList);
+      snapshot.data?[position]['image'],
+      snapshot.data?[position]['datetime'],
+      snapshot.data?[position]['mood'],
+      imgList,
+      nameList,
+      callback: setLoader,
+    );
   }
 }

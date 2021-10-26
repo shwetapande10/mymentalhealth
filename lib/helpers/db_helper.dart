@@ -19,6 +19,7 @@ class DBHelper {
       data,
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+    print("Data saved in DB");
   }
 
   static Future<List<Map<String, dynamic>>> getData(String table) async {

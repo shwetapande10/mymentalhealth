@@ -5,12 +5,6 @@ class SelectionIconData {
   SelectionIconData(this.image, this.name, this.isSelected);
 }
 
-class MoodDate {
-  String mood;
-  String date;
-  MoodDate(this.mood, this.date);
-}
-
 List<SelectionIconData> moodIcons = [
   SelectionIconData('assets/smile.png', 'Happy', false),
   SelectionIconData('assets/sad.png', 'Sad', false),
@@ -35,3 +29,9 @@ List<SelectionIconData> activityIcons = [
   SelectionIconData('assets/date.png', 'Date', false),
   SelectionIconData('assets/clean.png', 'Clean', false)
 ];
+
+class MoodDate {
+  String mood;
+  String date;
+  MoodDate(this.mood, this.date);
+}

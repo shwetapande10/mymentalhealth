@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mymentalhealth/models/mood_data.dart';
+import 'package:mymentalhealth/models/data.dart';
 
 class SelectionIcon extends StatelessWidget {
   final SelectionIconData data;

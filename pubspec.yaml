@@ -30,7 +30,6 @@ dependencies:
   flutter:
     sdk: flutter
   sqflite: ^2.0.0+4
-  provider: ^6.0.1
   charts_flutter:
     git:
       url: git://github.com/google/charts.git

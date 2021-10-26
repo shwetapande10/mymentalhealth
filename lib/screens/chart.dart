@@ -2,7 +2,7 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mymentalhealth/helpers/db_helper.dart';
-import 'package:mymentalhealth/models/mood_data.dart';
+import 'package:mymentalhealth/models/data.dart';
 import 'package:mymentalhealth/widgets/chart_holder.dart';
 import 'package:pie_chart/pie_chart.dart';
 

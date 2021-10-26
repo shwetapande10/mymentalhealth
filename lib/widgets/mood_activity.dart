@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mymentalhealth/models/moodcard_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:mymentalhealth/helpers/db_helper.dart';
 
 class MoodActivity extends StatefulWidget {
   final String? datetime;
@@ -8,10 +7,10 @@ class MoodActivity extends StatefulWidget {
   final String image;
   List<String?> imageList = [];
   List<String?> nameList = [];
-
+  final Function(bool) callback;
   MoodActivity(
       this.image, this.datetime, this.mood, this.imageList, this.nameList,
-      {Key? key})
+      {Key? key, required this.callback})
       : super(key: key);
 
   @override
@@ -19,7 +18,6 @@ class MoodActivity extends StatefulWidget {
 }
 
 class _MoodActivityState extends State<MoodActivity> {
-  bool isLoading = true;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -54,9 +52,10 @@ class _MoodActivityState extends State<MoodActivity> {
                 IconButton(
                     icon: const Icon(Icons.delete),
                     onPressed: () async {
-                      await Provider.of<MoodCardProvider>(context,
-                              listen: false)
-                          .deletePlaces(widget.datetime ?? "");
+                      widget.callback(true);
+
+                      await DBHelper.delete(widget.datetime ?? "");
+                      widget.callback(false);
                     })
               ],
             ),
