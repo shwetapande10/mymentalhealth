@@ -1,23 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mymentalhealth/helpers/db_helper.dart';
-import 'package:mymentalhealth/helpers/mood_data.dart';
-import 'package:mymentalhealth/models/activity.dart';
 
 class MoodCardProvider extends ChangeNotifier {
-  List<String> activityNameList = [];
-  List<String> activityImageList = [];
-  List<MoodData> data = [];
   bool isLoading = false;
-  List<String> activityNames = [];
-
-  void add(Activity activity) {
-    activityImageList.add(activity.image);
-    activityNameList.add(activity.name);
-    notifyListeners();
-  }
 
   Future<void> addPlace(String datetime, String mood, String image,
       String activityImage, String activityName, String date) async {
+    isLoading = true;
     DBHelper.insert('user_moods', {
       'datetime': datetime,
       'mood': mood,
@@ -26,11 +15,14 @@ class MoodCardProvider extends ChangeNotifier {
       'activityName': activityName,
       'date': date
     });
+    isLoading = false;
     notifyListeners();
   }
 
   Future<void> deletePlaces(String datetime) async {
+    isLoading = true;
     DBHelper.delete(datetime);
+    isLoading = false;
     notifyListeners();
   }
 }

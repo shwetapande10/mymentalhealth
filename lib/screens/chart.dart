@@ -1,11 +1,10 @@
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mymentalhealth/helpers/mood_data.dart';
-import 'package:mymentalhealth/models/moodcard_provider.dart';
+import 'package:mymentalhealth/helpers/db_helper.dart';
+import 'package:mymentalhealth/models/mood_data.dart';
 import 'package:mymentalhealth/widgets/chart_holder.dart';
 import 'package:pie_chart/pie_chart.dart';
-import 'package:provider/provider.dart';
 
 class MoodChart extends StatefulWidget {
   const MoodChart({Key? key}) : super(key: key);
@@ -16,54 +15,62 @@ class MoodChart extends StatefulWidget {
 
 class _MoodChartState extends State<MoodChart> {
   late Map<String, double> moodScore = {
-    moods[0].name: 0,
-    moods[1].name: 0,
-    moods[2].name: 0,
-    moods[3].name: 0,
-    moods[4].name: 0,
-    moods[5].name: 0
+    moodIcons[0].name: 0,
+    moodIcons[1].name: 0,
+    moodIcons[2].name: 0,
+    moodIcons[3].name: 0,
+    moodIcons[4].name: 0,
+    moodIcons[5].name: 0
   };
 
   Map<String, double> activityScore = {
-    activities[0].name: 0,
-    activities[1].name: 0,
-    activities[2].name: 0,
-    activities[3].name: 0,
-    activities[4].name: 0,
-    activities[5].name: 0,
-    activities[6].name: 0,
-    activities[7].name: 0,
-    activities[8].name: 0,
-    activities[9].name: 0,
-    activities[10].name: 0,
-    activities[11].name: 0,
-    activities[12].name: 0
+    activityIcons[0].name: 0,
+    activityIcons[1].name: 0,
+    activityIcons[2].name: 0,
+    activityIcons[3].name: 0,
+    activityIcons[4].name: 0,
+    activityIcons[5].name: 0,
+    activityIcons[6].name: 0,
+    activityIcons[7].name: 0,
+    activityIcons[8].name: 0,
+    activityIcons[9].name: 0,
+    activityIcons[10].name: 0,
+    activityIcons[11].name: 0,
+    activityIcons[12].name: 0
   };
+
+  List<MoodDate> mooddateTimeList = [];
 
   @override
   void initState() {
     super.initState();
-    Provider.of<MoodCardProvider>(context, listen: false).data.forEach((element) {
-      moodScore[element.mood] = (moodScore[element.mood] ?? 0) + 1;
-    });
-
-    Provider.of<MoodCardProvider>(context, listen: false)
-        .activityNames
-        .forEach((element) {
-      activityScore[element] = (activityScore[element] ?? 0) + 1;
+    DBHelper.getData('user_moods').then((value) {
+      setState(() {
+        mooddateTimeList =
+            value.toList().map((e) => MoodDate(e["mood"], e["date"])).toList();
+        var activityNames =
+            value.toList().expand((e) => e["activityName"].split("_"));
+        for (var element in activityNames) {
+          activityScore[element] = (activityScore[element] ?? 0) + 1;
+        }
+        var moods = mooddateTimeList.map((e) => e.mood);
+        for (var element in moods) {
+          moodScore[element] = (moodScore[element] ?? 0) + 1;
+        }
+      });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    List<MoodData> data = Provider.of<MoodCardProvider>(context, listen: true).data;
-    List<charts.Series<MoodData, String>> series = [
+    List<charts.Series<MoodDate, String>> series = [
       charts.Series(
           id: 'Moods',
-          data: data,
-          domainFn: (MoodData series, _) => series.date,
-          measureFn: (MoodData series, _) =>
-              moods.indexWhere((element) => element.name == series.mood) + 1)
+          data: mooddateTimeList,
+          domainFn: (MoodDate series, _) => series.date,
+          measureFn: (MoodDate series, _) =>
+              moodIcons.indexWhere((element) => element.name == series.mood) +
+              1)
     ];
 
     return Scaffold(
@@ -146,7 +153,7 @@ class _MoodChartState extends State<MoodChart> {
     );
   }
 
-  Column barchart(List<charts.Series<MoodData, String>> series) {
+  Column barchart(List<charts.Series<MoodDate, String>> series) {
     return Column(
       children: [
         SizedBox(
@@ -162,7 +169,7 @@ class _MoodChartState extends State<MoodChart> {
                 6,
                 (index) => ChartHolder(
                       Text(
-                        "${index + 1} - ${moods[index].name}",
+                        "${index + 1} - ${moodIcons[index].name}",
                         textAlign: TextAlign.center,
                       ),
                       direction: 1,

@@ -54,13 +54,9 @@ class _MoodActivityState extends State<MoodActivity> {
                 IconButton(
                     icon: const Icon(Icons.delete),
                     onPressed: () async {
-                      Provider.of<MoodCardProvider>(context, listen: false)
-                          .isLoading = true;
                       await Provider.of<MoodCardProvider>(context,
                               listen: false)
                           .deletePlaces(widget.datetime ?? "");
-                      Provider.of<MoodCardProvider>(context, listen: false)
-                          .isLoading = false;
                     })
               ],
             ),

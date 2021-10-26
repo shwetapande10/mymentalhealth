@@ -1,9 +1,9 @@
 import 'package:path/path.dart' as path;
 import 'package:sqflite/sqflite.dart' as sql;
-import 'package:sqflite/sqlite_api.dart';
+import 'package:sqflite/sqflite.dart';
 
 class DBHelper {
-  static Future<Database> _database() async {
+  static Future<sql.Database> _database() async {
     final dbPath = await sql.getDatabasesPath();
     return sql.openDatabase(path.join(dbPath, 'moods.db'),
         onCreate: (db, version) {

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mymentalhealth/helpers/db_helper.dart';
-import 'package:mymentalhealth/helpers/mood_data.dart';
 import 'package:mymentalhealth/models/moodcard_provider.dart';
-import 'package:mymentalhealth/widgets/mood_activity.dart';
+import 'package:mymentalhealth/widgets/mood_activity_list.dart';
 import 'package:provider/provider.dart';
 
 class MoodActivityScreen extends StatefulWidget {
@@ -33,22 +32,16 @@ class _MoodActivityScreenState extends State<MoodActivityScreen> {
               future: DBHelper.getData('user_moods'),
               initialData: List.filled(0, null, growable: true),
               builder: (context, snapshot) {
-                return snapshot.hasData
-                    ? moodActivity(snapshot)
-                    : const Center(child: CircularProgressIndicator());
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: snapshot.data?.length,
+                  itemBuilder: (context, int position) {
+                    return getMoodActivityItem(snapshot, position, context);
+                  },
+                );
               },
             ),
           );
-  }
-
-  ListView moodActivity(AsyncSnapshot<List<dynamic>> snapshot) {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: snapshot.data?.length,
-      itemBuilder: (context, int position) {
-        return getMoodActivityItem(snapshot, position, context);
-      },
-    );
   }
 
   MoodActivity getMoodActivityItem(AsyncSnapshot<List<dynamic>> snapshot,
@@ -56,11 +49,6 @@ class _MoodActivityScreenState extends State<MoodActivityScreen> {
     var imageString = snapshot.data?[position]['activityImage'];
     List<String> imgList = imageString.split('_');
     List<String> nameList = snapshot.data?[position]['activityName'].split("_");
-    Provider.of<MoodCardProvider>(context, listen: false)
-        .activityNames
-        .addAll(nameList);
-    Provider.of<MoodCardProvider>(context, listen: false).data.add(MoodData(
-        snapshot.data?[position]['mood'], snapshot.data?[position]['date']));
     return MoodActivity(
         snapshot.data?[position]['image'],
         snapshot.data?[position]['datetime'],
